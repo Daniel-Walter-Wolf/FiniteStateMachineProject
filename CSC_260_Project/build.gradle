@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+//Author Matthew Goff
+
+mainClassName = 'EntrancePoint'
+
+repositories {
+    mavenCentral()
+}
+
+run {
+    standardInput = System.in
+}
+ 
+if (hasProperty("deprecation")) {
+   tasks.withType(Compile) {
+   	options.compilerArgs << "-Xlint:deprecation"		 
+   }
+}
+
+if (hasProperty("unchecked")) {
+   tasks.withType(Compile) {
+   	options.compilerArgs << "-Xlint:unchecked"		 
+   }
+}
+
+task createJavadocs(type: Javadoc) {
+  source = sourceSets.main.allJava
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+     include '**/*Suite.class'
+}
